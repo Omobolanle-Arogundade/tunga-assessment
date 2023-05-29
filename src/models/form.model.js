@@ -22,7 +22,7 @@ const formSchema = mongoose.Schema(
   status: {
    type: String,
    required: true,
-   enum: Object.keys(formStatus),
+   enum: Object.values(formStatus),
    default: formStatus.PENDING,
   },
 

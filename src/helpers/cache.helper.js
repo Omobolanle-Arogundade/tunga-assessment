@@ -1,43 +1,48 @@
-import NodeCache from 'node-cache';
+import redis from 'redis';
+import config from '../config';
 
 export default class CacheHelper {
- constructor(ttlSeconds) {
-  this.cache = new NodeCache({ stdTTL: ttlSeconds, checkperiod: ttlSeconds * 0.2, useClones: false });
+ constructor() {
+  this.client = redis.createClient({
+   port: config.redis.port,
+   host: config.redis.host,
+  });
  }
 
  get(key) {
-  const value = this.cache.get(key);
-  if (value) {
-   return value;
-  }
+  return new Promise((resolve, reject) => {
+   this.client.get(key, (err, result) => {
+    if (err) {
+     reject(err);
+     return;
+    }
+    resolve(result ? JSON.parse(result) : null);
+   });
+  });
  }
 
- set(key, value) {
-  this.cache.set(key, value);
-  return value;
+ set(key, value, expiration) {
+  return new Promise((resolve, reject) => {
+   const serializedValue = JSON.stringify(value);
+   this.client.set(key, serializedValue, 'EX', expiration, (err) => {
+    if (err) {
+     reject(err);
+     return;
+    }
+    resolve();
+   });
+  });
  }
 
- del(keys) {
-  this.cache.del(keys);
- }
-
- delStartWith(startStr = '') {
-  if (!startStr) {
-   return;
-  }
-
-  const keys = this.cache.keys();
-  /* eslint-disable no-restricted-syntax */
-  //
-
-  for (const key of keys) {
-   if (key.indexOf(startStr) === 0) {
-    this.del(key);
-   }
-  }
- }
-
- flush() {
-  this.cache.flushAll();
+ delete(key) {
+  return new Promise((resolve, reject) => {
+   this.client.del(key, (err, count) => {
+    if (err) {
+     reject(err);
+     return;
+    }
+    resolve(count > 0);
+   });
+  });
  }
 }

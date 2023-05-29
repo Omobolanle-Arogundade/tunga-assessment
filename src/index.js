@@ -6,6 +6,7 @@ const config = require('./config');
 const logger = require('./config/logger');
 const socket = require('./config/socket');
 const { default: CronService } = require('./services/cron.service');
+const { default: RedisClient } = require('./helpers/cache.helper');
 
 let server;
 mongoose
@@ -14,6 +15,13 @@ mongoose
   logger.info('Connected to MongoDB');
  })
  .catch((err) => logger.error(`Error in mongoose connection ${err}`));
+
+const redisClient = new RedisClient();
+
+redisClient.client.on('connect', () => {
+ logger.info('Redis client connected');
+ logger.info(`connected to ${config.redis}`);
+});
 
 const port = config.port || '8080';
 

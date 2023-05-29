@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import CacheHelper from '../helpers/cache.helper';
 
 const ttl = 300; // 5 minutes
-const cache = new CacheHelper(ttl);
+const cache = new CacheHelper();
 
 export default class OTPService {
  /**
@@ -18,7 +18,7 @@ export default class OTPService {
   * @param {*} email
   */
  static removetheOTP(email) {
-  return cache.del(`OTP_for_${email}`);
+  return cache.delete(`OTP_for_${email}`);
  }
 
  /**
@@ -28,7 +28,7 @@ export default class OTPService {
  static cacheTheOTP(email) {
   const KEY = `OTP_for_${email}`;
   const code = parseInt(crypto.randomBytes(3).toString('hex'), 16).toString().substring(0, 4);
-  cache.set(KEY, code);
+  cache.set(KEY, code, ttl);
   return code;
  }
 }

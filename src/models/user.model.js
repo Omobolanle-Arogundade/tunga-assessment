@@ -31,7 +31,7 @@ const userSchema = mongoose.Schema(
   status: {
    type: String,
    required: true,
-   enum: Object.keys(userStatus),
+   enum: Object.values(userStatus),
    default: userStatus.ACTIVE,
   },
   password: {
@@ -43,7 +43,7 @@ const userSchema = mongoose.Schema(
   role: {
    type: String,
    required: true,
-   enum: Object.keys(roles),
+   enum: Object.values(roles),
   },
   permissions: {
    type: [String],

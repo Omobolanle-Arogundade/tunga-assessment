@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi';
 
-const uploadImage = {
+const uploadFile = {
  body: Joi.object().keys({
   path: Joi.string().optional(),
   tags: Joi.string().optional(),
@@ -9,14 +9,14 @@ const uploadImage = {
  }),
 };
 
-const removeImage = {
- body: Joi.object().keys({
+const removeFile = {
+ query: Joi.object().keys({
   path: Joi.string().required(),
-  image: Joi.string().required(),
+  file: Joi.string().required(),
  }),
 };
 
 module.exports = {
- uploadImage,
- removeImage,
+ uploadFile,
+ removeFile,
 };

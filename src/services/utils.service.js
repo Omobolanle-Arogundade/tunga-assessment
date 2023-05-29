@@ -11,22 +11,22 @@ cloudinary.config({
 export default class UtilsService {
  /**
   *
-  * @param {*} image
+  * @param {*} file
   * @param {*} options
   */
- static async imageUpload(pictureFiles, { path: imagePath, tags /* height, width */ }) {
+ static async fileUpload(pictureFiles, { path: filePath, tags /* height, width */ }) {
   try {
    const multiplePicturePromise = pictureFiles.map((picture) =>
     cloudinary.uploader.upload(picture.path, {
-     public_id: `${imagePath}/${picture.filename}`,
+     public_id: `${filePath}/${picture.filename}`,
      tags,
      //  transformation: { width: width || 350, height: height || 350 },
     })
    );
-   const imageResponses = await Promise.all(multiplePicturePromise);
-   return imageResponses;
+   const fileResponses = await Promise.all(multiplePicturePromise);
+   return fileResponses;
   } catch (error) {
-   logger.error('error uploading image');
+   logger.error('error uploading file');
    logger.error(error);
    throw error;
   }
@@ -34,14 +34,14 @@ export default class UtilsService {
 
  /**
   *
-  * @param {*} image
+  * @param {*} file
   */
- static async removeImage(image) {
+ static async removeFile(file) {
   try {
-   const _image = await cloudinary.uploader.destroy(image);
-   return _image;
+   const _file = await cloudinary.uploader.destroy(file);
+   return _file;
   } catch (error) {
-   logger.error('error removing image');
+   logger.error('error removing file');
    logger.error(error);
    throw error;
   }
