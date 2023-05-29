@@ -37,7 +37,6 @@ const envVarsSchema = Joi.object()
   ENABLE_CRON_JOBS: Joi.boolean().required().description('Enable Cron Jobs').required(),
 
   BUGSNAP_API_KEY: Joi.string().description('Bugsnag API Key').required(),
-  KUBE_CONFIG_JSON: Joi.string().description('Kubernetes config JSON').required(),
   ADMIN_PASSWORD: Joi.string().description('Admin password').required(),
  })
  .unknown();
@@ -115,9 +114,6 @@ module.exports = {
  },
  bugsnag: {
   apiKey: envVars.BUGSNAP_API_KEY,
- },
- kubectl: {
-  config: envVars.KUBE_CONFIG_JSON,
  },
  admin: {
   password: envVars.ADMIN_PASSWORD,
