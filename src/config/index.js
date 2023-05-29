@@ -39,8 +39,7 @@ const envVarsSchema = Joi.object()
   BUGSNAP_API_KEY: Joi.string().description('Bugsnag API Key').required(),
   ADMIN_PASSWORD: Joi.string().description('Admin password').required(),
 
-  REDIS_HOST: Joi.string().description('Redis host').required(),
-  REDIS_PORT: Joi.string().description('Redis port').required(),
+  REDIS_URL: Joi.string().description('Redis url').required(),
  })
  .unknown();
 
@@ -122,7 +121,6 @@ module.exports = {
   password: envVars.ADMIN_PASSWORD,
  },
  redis: {
-  host: envVars.REDIS_HOST,
-  port: envVars.REDIS_PORT,
+  url: envVars.REDIS_URL,
  },
 };

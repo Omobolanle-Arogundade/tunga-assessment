@@ -20,7 +20,7 @@ const redisClient = new RedisClient();
 
 redisClient.client.on('connect', () => {
  logger.info('Redis client connected');
- logger.info(`connected to ${config.redis}`);
+ logger.info(`connected to ${config.redis.url}`);
 });
 
 const port = config.port || '8080';

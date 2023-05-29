@@ -3,10 +3,7 @@ import config from '../config';
 
 export default class CacheHelper {
  constructor() {
-  this.client = redis.createClient({
-   port: config.redis.port,
-   host: config.redis.host,
-  });
+  this.client = redis.createClient(config.redis.url);
  }
 
  get(key) {
