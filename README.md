@@ -1,12 +1,10 @@
-# SERVER PLANNER SERVICE
+# PATIENT FORMS
 
-# About Server Planner Service
+# About Patient Forms Service
 
-Server Planner Service is an API that is used for calculating the number of servers required to service a group of Virtual Machines.
+Patient Forms Service is an API that is used for creating forms and questions for patients
 
 [Postman Documentation](https://documenter.getpostman.com/view/25299822/2s93m911SC)
-
-[Postman Collection](https://www.postman.com/chequebase/workspace/tunga/collection/25299822-6ceb15cc-6d15-4e15-ac54-87f3c8d11fbf?action=share&creator=25299822)
 
 # Built with love by:
 
