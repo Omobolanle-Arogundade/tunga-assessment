@@ -87,11 +87,13 @@ module.exports = {
    SENDOTP: 'verification',
    USER_WELCOME: 'welcome',
    ADMIN_WELCOME: 'admin-welcome',
+   REMINDER: 'reminder',
   },
   subject: {
    SENDOTP: 'OTP Verification',
    USER_WELCOME: 'Welcome Onboard',
    ADMIN_WELCOME: 'Welcome Onboard',
+   REMINDER: 'Reminder to Answer Questions',
   },
  },
  googleAuth: {

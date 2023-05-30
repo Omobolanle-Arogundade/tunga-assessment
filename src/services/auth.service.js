@@ -8,7 +8,7 @@ import _UserService from './user.service';
 import _TokenService from './token.service';
 import { clean } from '../utils/object';
 import logger from '../config/logger';
-import { authMethods, socialActions } from '../utils/constants';
+import { authMethods, sendOTPActions, socialActions } from '../utils/constants';
 import { User } from '../models';
 
 export default class AuthService {
@@ -19,17 +19,17 @@ export default class AuthService {
   */
  static async sendOTP(email, action) {
   const user = await User.isEmailTaken(email);
-  if (action === 'register') {
+  if (action === sendOTPActions.REGISTER) {
    if (user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User already exists', true);
    }
-  } else if (action === 'reset-password') {
+  } else if (action === sendOTPActions.RESET_PASSWORD) {
    if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User does not exists', true);
    }
   }
 
-  const otp = OTPService.cacheTheOTP(email);
+  const otp = await OTPService.cacheTheOTP(email);
   const template = config.email && config.email.template && config.email.template.SENDOTP;
   const subject = config.email && config.email.subject && config.email.subject.SENDOTP;
 
@@ -41,8 +41,8 @@ export default class AuthService {
   * @param {*} email
   * @param {*} otp
   */
- static verifyOTP(email, otp) {
-  const cachedOtp = OTPService.getOTPKey(email);
+ static async verifyOTP(email, otp) {
+  const cachedOtp = await OTPService.getOTPKey(email);
   if (cachedOtp && +cachedOtp === +otp) {
    return {
     success: true,

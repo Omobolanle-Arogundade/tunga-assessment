@@ -36,7 +36,7 @@ export default class MailGunService extends MailService {
   } catch (error) {
    logger.error('error sending email');
    logger.error(error);
-   //    throw new ApiError(error.code || httpStatus.INTERNAL_SERVER_ERROR, error || 'error sending email');
+   //    throw new ApiError(error.code || httpStatus.INTERNAL_SERVER_ERROR, error.message || 'error sending email');
   }
  }
 

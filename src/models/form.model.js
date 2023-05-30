@@ -41,6 +41,7 @@ const formSchema = mongoose.Schema(
    ref: 'users',
   },
   completedAt: Date,
+  lastReminderAt: Date,
   required: Boolean,
  },
  { timestamps: true, versionKey: false }

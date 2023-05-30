@@ -26,9 +26,9 @@ export default class AuthController {
   * @param {*} req
   * @param {*} res
   */
- static verifyOTP(req, res) {
+ static async verifyOTP(req, res) {
   const { email, otp } = req.body;
-  AuthService.verifyOTP(email, otp);
+  await AuthService.verifyOTP(email, otp);
   res.send({ message: 'Valid OTP' });
  }
 

@@ -4,6 +4,11 @@ const authMethods = {
  LOCAL: 'local',
 };
 
+const sendOTPActions = {
+ REGISTER: 'register',
+ RESET_PASSWORD: 'reset-password',
+};
+
 const userStatus = {
  ACTIVE: 'ACTIVE',
  PENDING: 'PENDING',
@@ -30,6 +35,7 @@ const formStatus = {
 
 module.exports = {
  authMethods,
+ sendOTPActions,
  roles,
  socialActions,
  questionTypes,

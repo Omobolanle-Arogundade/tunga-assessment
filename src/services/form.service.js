@@ -4,10 +4,13 @@ import httpStatus from 'http-status';
 import { Form } from '../models';
 import ApiError from '../utils/ApiError';
 
+import MailService from './notifications/mail/mailgun.service';
+
 import CrudService from './crud.service';
 import _UserService from './user.service';
 import { clean } from '../utils/object';
 import { formStatus } from '../utils/constants';
+import config from '../config';
 
 export class FormService extends CrudService {
  constructor() {
@@ -66,17 +69,24 @@ export class FormService extends CrudService {
  }
 
  async sendReminder() {
-  const forms = await this.findAll({ expires: { $lte: new Date() }, status: { $ne: formStatus.COMPLETED } }, undefined, [
-   { path: 'sentTo' },
-  ]);
-
+  const forms = await this.findAll(
+   {
+    expires: { $lte: new Date() },
+    status: { $ne: formStatus.COMPLETED },
+    $or: [{ lastReminderAt: { $exists: false } }, { lastReminderAt: { $lte: moment().subtract(1, 'd') } }],
+   },
+   {},
+   [{ path: 'sentTo' }]
+  );
   await Promise.all(
    forms.map((form) => {
     const {
      sentTo: { email },
     } = form;
-    // TODO => Send reminder emails to the recipients
-    return email;
+    const template = config.email && config.email.template && config.email.template.REMINDER;
+    const subject = config.email && config.email.subject && config.email.subject.REMINDER;
+
+    return MailService.sendMail({ email, template, payload: form, subject });
    })
   );
  }

@@ -25,10 +25,10 @@ export default class OTPService {
   * Set OTP Key for email passed
   * @param {*} email
   */
- static cacheTheOTP(email) {
+ static async cacheTheOTP(email) {
   const KEY = `OTP_for_${email}`;
   const code = parseInt(crypto.randomBytes(3).toString('hex'), 16).toString().substring(0, 4);
-  cache.set(KEY, code, ttl);
+  await cache.set(KEY, code, ttl);
   return code;
  }
 }

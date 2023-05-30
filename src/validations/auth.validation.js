@@ -1,10 +1,10 @@
 import Joi from '@hapi/joi';
-// const { password } = require('./custom.validation');
+import { sendOTPActions } from '../utils/constants';
 
 const sendOTP = {
  body: Joi.object().keys({
   email: Joi.string().email().required(),
-  action: Joi.string().required().valid('register', 'reset-password'),
+  action: Joi.string().required().valid(sendOTPActions.REGISTER, sendOTPActions.RESET_PASSWORD),
  }),
 };
 
