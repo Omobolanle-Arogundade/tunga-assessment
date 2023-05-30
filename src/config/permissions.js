@@ -11,6 +11,10 @@ const adminPermissions = [
   name: 'forms',
   description: 'Manage Forms',
  },
+ {
+  name: 'answers',
+  description: 'View Answers',
+ },
 ];
 
 export const permissions = adminPermissions.map((permission) => permission.name);

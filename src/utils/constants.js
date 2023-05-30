@@ -33,6 +33,12 @@ const formStatus = {
  COMPLETED: 'COMPLETED',
 };
 
+const answersGroupBy = {
+ FORM: 'form',
+ PATIENT: 'patient',
+ QUESTION: 'question',
+};
+
 module.exports = {
  authMethods,
  sendOTPActions,
@@ -41,4 +47,5 @@ module.exports = {
  questionTypes,
  userStatus,
  formStatus,
+ answersGroupBy,
 };

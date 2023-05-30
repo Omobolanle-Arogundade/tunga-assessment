@@ -1,5 +1,6 @@
 import Joi from '@hapi/joi';
 import { objectId } from './custom.validation';
+import { answersGroupBy } from '../utils/constants';
 
 const answerQuestions = {
  body: Joi.object().keys({
@@ -24,7 +25,19 @@ const fetchUserAnswers = {
  }),
 };
 
+const fetchAdminAnswers = {
+ query: Joi.object()
+  .keys({
+   patient: Joi.string().custom(objectId).optional(),
+   groupBy: Joi.string()
+    .valid(...Object.values(answersGroupBy))
+    .optional(),
+  })
+  .min(1),
+};
+
 module.exports = {
  answerQuestions,
  fetchUserAnswers,
+ fetchAdminAnswers,
 };

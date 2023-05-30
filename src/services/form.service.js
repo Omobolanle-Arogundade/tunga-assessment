@@ -71,7 +71,7 @@ export class FormService extends CrudService {
  async sendReminder() {
   const forms = await this.findAll(
    {
-    expires: { $lte: new Date() },
+    expires: { $lte: moment() },
     status: { $ne: formStatus.COMPLETED },
     $or: [{ lastReminderAt: { $exists: false } }, { lastReminderAt: { $lte: moment().subtract(1, 'd') } }],
    },
@@ -79,14 +79,15 @@ export class FormService extends CrudService {
    [{ path: 'sentTo' }]
   );
   await Promise.all(
-   forms.map((form) => {
+   forms.map(async (form) => {
     const {
      sentTo: { email },
     } = form;
     const template = config.email && config.email.template && config.email.template.REMINDER;
     const subject = config.email && config.email.subject && config.email.subject.REMINDER;
 
-    return MailService.sendMail({ email, template, payload: form, subject });
+    await MailService.sendMail({ email, template, payload: form, subject });
+    return this.updateById(form._id, { lastReminderAt: moment() });
    })
   );
  }
